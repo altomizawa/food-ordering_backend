@@ -1,0 +1,23 @@
+{
+  "name": "food-ordering_backend",
+  "version": "1.0.0",
+  "description": "food ordering app backend",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint ."
+  },
+  "author": "Al Tomizawa",
+  "license": "ISC",
+  "dependencies": {
+    "eslint-config-airbnb-base": "^15.0.0",
+    "express": "^4.18.3",
+    "mongoose": "^8.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1",
+    "nodemon": "^3.1.0"
+  }
+}
