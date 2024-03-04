@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cartItemSchema = new mongoose.Schema({
   category: {
     type: String,
-    enum: ["Appetizers", "Pasta", "Pizza", "Dessert", "Beverages"],
+    enum: ["appetizers", "pastas", "pizzas", "desserts", "beverages"],
     required: true,
   },
   name: {

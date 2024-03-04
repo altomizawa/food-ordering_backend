@@ -9,18 +9,16 @@ module.exports.getAllCartItems = (req, res) => {
 
 //POST NEW ITEM IN MENU
 module.exports.addToCart = (req, res) => {
-  console.log(req.body);
   const { category, name, description, link, price, onSale, salePrice } =
     req.body;
-
   MenuItem.create({
-    name,
     category,
+    name,
     description,
+    link,
     price,
     onSale,
     salePrice,
-    link,
   })
     .then((menuItem) => res.send(menuItem))
     .catch((err) => {
