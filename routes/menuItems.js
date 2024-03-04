@@ -1,7 +1,12 @@
 const router = require("express").Router();
 
-const { getAllMenuItems, createMenuItem } = require("../controllers/menuItems");
+const {
+  getAllMenuItems,
+  createMenuItem,
+  getCurrentCategoryMenu,
+} = require("../controllers/menuItems");
 
+router.get("/categories/:params", getCurrentCategoryMenu);
 router.get("/", getAllMenuItems);
 router.post("/", createMenuItem);
 
