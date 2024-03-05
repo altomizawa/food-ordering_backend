@@ -1,4 +1,3 @@
-const { restart } = require("nodemon");
 const MenuItem = require("../models/menuItem");
 
 //GET INITIAL Menu
