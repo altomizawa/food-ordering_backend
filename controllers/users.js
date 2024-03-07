@@ -144,7 +144,7 @@ module.exports.addItemToCart = async (req, res) => {
     user.currentOrder.push(newItem);
 
     // SAVE UPDATED USER DOCUMENT
-    await user.currentOrder.save();
+    await user.save();
 
     return res
       .status(201)
