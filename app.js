@@ -11,6 +11,7 @@ connectDatabase();
 
 const menuRouter = require("./routes/menuItems");
 const cartItems = require("./routes/cartItems");
+const userRouter = require("./routes/users");
 
 app.use(bodyParser.json());
 
@@ -19,20 +20,10 @@ app.use(cors());
 
 app.use("/menu", menuRouter);
 app.use("/mycart", cartItems);
+app.use("/users", userRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, World");
-});
-
-app.get("/users", (req, res) => {
-  res.send({
-    name: "Al Tomizawa",
-    age: "42",
-  });
-});
-
-app.get("/users/:id", (req, res) => {
-  res.send(req.params);
 });
 
 app.listen(PORT, () => {

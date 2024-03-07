@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
-const validator = require('validator');
-const bcrypt = require('brcrypt');
+const validator = require("validator");
+const bcrypt = require("bcrypt");
+
+const cartItemSchema = require("./cartItem");
 
 const avatarURLPattern =
   /^(https?:\/\/)?(www\.)?[a-zA-Z0-9._~:/?%#[\]@!$&'()*+,;=,-]+(#)?$/;
@@ -41,7 +43,7 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
   pastOrders: [{}],
-  currentOrder: {[]},
+  currentOrder: [cartItemSchema],
 });
 
 userSchema.statics.findUserByCredentials = function findUserByCredentials(
@@ -60,7 +62,9 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
       return bcrypt.compare(password, user.password).then((matched) => {
         //Passwords dont match, return error
         if (!matched) {
-          return Promise.reject(new requestError("Incorrect email or password"));
+          return Promise.reject(
+            new requestError("Incorrect email or password")
+          );
         }
         //passwords match, return user
         return user;
@@ -68,6 +72,4 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
     });
 };
 
-
-
-module.exports('user', userSchema)
+module.exports = mongoose.model("User", userSchema);
