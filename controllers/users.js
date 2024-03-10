@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
-const { HttpStatus, HttpReponseMessage } = require("../enums/http");
+const { HttpStatus, HttpResponseMessage } = require("../enums/http");
 
 // CREATE USER
 module.exports.createUser = async (req, res) => {
@@ -78,9 +78,33 @@ module.exports.signIn = async (req, res) => {
       // return token
       return res.status(HttpStatus.OK).json(token);
     }
-    return res.status(HttpStatus.BAD_REQUEST).send("Invalid credentials");
+    return res.status(HttpStatus.UNAUTHORIZED).send("Invalid credentials");
   } catch (err) {
     console.log(err);
+  }
+};
+
+// GET MY USER PROFILE
+module.exports.getMyProfile = async (req, res) => {
+  try {
+    // Get user input
+    const { user_id } = req.user;
+
+    // LOOK FOR USER BY ID
+    const user = await User.findById(user_id);
+
+    // USER NOT FOUND
+    if (!user) {
+      return res
+        .status(HttpResponseMessage.NOT_FOUND)
+        .send({ message: HttpResponseMessage.NOT_FOUND });
+    }
+
+    res.status(HttpStatus.OK).json(user);
+  } catch (err) {
+    return res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -97,7 +121,7 @@ module.exports.getAllUsers = async (req, res) => {
   } catch (err) {
     res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpReponseMessage.INTERNAL_SERVER_ERROR });
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -115,7 +139,7 @@ module.exports.getUserById = async (req, res) => {
   } catch (err) {
     res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpReponseMessage.INTERNAL_SERVER_ERROR });
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -133,7 +157,7 @@ module.exports.deleteUser = async (req, res) => {
   } catch (err) {
     res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpReponseMessage.INTERNAL_SERVER_ERROR });
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -157,9 +181,9 @@ module.exports.getCartItems = async (req, res) => {
 
     return res.status(HttpStatus.OK).json({ cartItems });
   } catch (err) {
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: { message: HttpReponseMessage.INTERNAL_SERVER_ERROR } });
+    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      message: { message: HttpResponseMessage.INTERNAL_SERVER_ERROR },
+    });
   }
 };
 
@@ -203,6 +227,6 @@ module.exports.addItemToCart = async (req, res) => {
   } catch (err) {
     return res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: { message: HttpReponseMessage.INTERNAL_SERVER_ERROR } });
+      .json({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
