@@ -6,9 +6,11 @@ const {
   addItemToCart,
   getUserById,
   deleteUser,
+  getMyProfile,
 } = require("../controllers/users");
 
 router.get("/", getAllUsers);
+router.get("/me", getMyProfile);
 router.get("/:id", getUserById);
 router.delete("/:id", deleteUser);
 router.get("/cart", getCartItems);
