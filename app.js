@@ -12,10 +12,14 @@ const { PORT = 3000 } = process.env;
 
 connectDatabase();
 
+// IMPORT ROUTES
 const menuRouter = require("./routes/menuItems");
 const cartItems = require("./routes/cartItems");
 const userRouter = require("./routes/users");
 const { createUser, signIn } = require("./controllers/users");
+
+//IMPORT MIDDLEWARES
+const auth = require("./middleware/auth");
 
 app.use(bodyParser.json());
 
@@ -23,8 +27,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/menu", menuRouter);
-app.use("/mycart", cartItems);
-app.use("/users", userRouter);
+app.use("/mycart", auth, cartItems);
+app.use("/users", auth, userRouter);
 app.post("/register", createUser);
 app.post("/signin", signIn);
 
