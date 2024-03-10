@@ -5,7 +5,7 @@ const { HttpStatus, HttpResponseMessage } = require("../enums/http");
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
-  const secretKey = process.env.JWT_SECRET;
+  const secretKey = process.env.TOKEN_KEY;
 
   // CHECK FOR EXISTING AUTHORIZATION
   if (!authorization || !authorization.startsWith("Bearer ")) {
