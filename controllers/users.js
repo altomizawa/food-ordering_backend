@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
+const { HttpStatus, HttpReponseMessage } = require("../enums/http");
+
 // CREATE USER
 module.exports.createUser = async (req, res) => {
   try {
@@ -11,14 +13,16 @@ module.exports.createUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!(email && password && name)) {
-      return res.status(400).send("All inputs are required");
+      return res.status(HttpStatus.BAD_REQUEST).send("All inputs are required");
     }
 
     // CHECK IF USER DOESNT EXIST IN DATABASE
     const oldUser = await User.findOne({ email });
 
     if (oldUser) {
-      return res.status(409).send("User already exists. Please Login");
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .send("User already exists. Please Login");
     }
 
     // USER IS NEW
@@ -34,13 +38,15 @@ module.exports.createUser = async (req, res) => {
 
     // Check if user has been created
     if (!user) {
-      return res.status(400).send("User could not be created");
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .send("User could not be created");
     }
 
     //User created. Return user info
-    return res.status(200).json(user);
+    return res.status(HttpStatus.CREATED).json(user);
   } catch (err) {
-    res.status(500).send(`Error: ${err}`);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(`Error: ${err}`);
   }
 };
 
@@ -52,7 +58,7 @@ module.exports.signIn = async (req, res) => {
 
     // Validate user input
     if (!(email && password)) {
-      res.status(400).send("All inputs are required");
+      res.status(HttpStatus.BAD_REQUEST).send("All inputs are required");
     }
     // Validate if user exists in database
     const user = await User.findOne({ email }).select("+password");
@@ -70,9 +76,9 @@ module.exports.signIn = async (req, res) => {
       // user.token = token;
 
       // return token
-      return res.status(200).json(token);
+      return res.status(HttpStatus.OK).json(token);
     }
-    return res.status(400).send("Invalid credentials");
+    return res.status(HttpStatus.BAD_REQUEST).send("Invalid credentials");
   } catch (err) {
     console.log(err);
   }
@@ -87,9 +93,11 @@ module.exports.getAllUsers = async (req, res) => {
     if (!users) {
       return res.status(204).send("No users in Database");
     }
-    return res.status(200).json(users);
+    return res.status(HttpStatus.OK).json(users);
   } catch (err) {
-    res.status(500).send("Internal server error");
+    res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpReponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -103,9 +111,11 @@ module.exports.getUserById = async (req, res) => {
     if (!user) {
       return res.status(204).send("No user in Database");
     }
-    return res.status(200).json(user);
+    return res.status(HttpStatus.OK).json(user);
   } catch (err) {
-    res.status(500).send("Internal server error");
+    res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpReponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -119,9 +129,11 @@ module.exports.deleteUser = async (req, res) => {
     if (!user) {
       return res.status(204).send("No user in Database");
     }
-    return res.status(200).json(user);
+    return res.status(HttpStatus.OK).json(user);
   } catch (err) {
-    res.status(500).send("Internal server error");
+    res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpReponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -135,15 +147,19 @@ module.exports.getCartItems = async (req, res) => {
 
     //IF NO USER FOUND
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .json({ message: "User not found" });
     }
 
     // USER FOUND. GET ITEMS ARRAY
     const cartItems = user.currentOrder;
 
-    return res.status(200).json({ cartItems });
+    return res.status(HttpStatus.OK).json({ cartItems });
   } catch (err) {
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .json({ message: { message: HttpReponseMessage.INTERNAL_SERVER_ERROR } });
   }
 };
 
@@ -160,7 +176,9 @@ module.exports.addItemToCart = async (req, res) => {
 
     //IF NO USER FOUND
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .json({ message: "User not found" });
     }
 
     // USER FOUND. CREATE NEW OBJECT AND PUSH IT TO ARRAY
@@ -180,9 +198,11 @@ module.exports.addItemToCart = async (req, res) => {
     await user.save();
 
     return res
-      .status(201)
+      .status(HttpStatus.CREATED)
       .json({ message: "Item added to cart succesfully", newItem });
   } catch (err) {
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .json({ message: { message: HttpReponseMessage.INTERNAL_SERVER_ERROR } });
   }
 };
