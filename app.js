@@ -23,7 +23,7 @@ app.use("/mycart", cartItems);
 app.use("/users", userRouter);
 
 app.get("/", (req, res) => {
-  res.send("Hello, World");
+  res.send("Database connected");
 });
 
 app.listen(PORT, () => {

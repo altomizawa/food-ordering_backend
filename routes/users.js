@@ -5,11 +5,14 @@ const {
   getAllUsers,
   getCartItems,
   addItemToCart,
+  getUserById,
+  deleteUser,
 } = require("../controllers/users");
 
 router.get("/", getAllUsers);
-// router.get('/:id', getItemById);
+router.get("/:id", getUserById);
 router.post("/", createUser);
+router.delete("/:id", deleteUser);
 // router.delete("/", deleteMenuItemById);
 router.get("/cart", getCartItems);
 router.post("/cart", addItemToCart);

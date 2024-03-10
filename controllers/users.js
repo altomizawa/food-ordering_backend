@@ -92,6 +92,38 @@ module.exports.getAllUsers = async (req, res) => {
   }
 };
 
+// GET USER BY ID
+module.exports.getUserById = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const user = await User.find({ _id: _id });
+
+    // IF NO USER FOUND
+    if (!user) {
+      return res.status(204).send("No user in Database");
+    }
+    return res.status(200).json(user);
+  } catch (err) {
+    res.status(500).send("Internal server error");
+  }
+};
+
+// DELETE USER
+module.exports.deleteUser = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const user = await User.findByIdAndDelete(_id);
+
+    // IF NO USER FOUND
+    if (!user) {
+      return res.status(204).send("No user in Database");
+    }
+    return res.status(200).json(user);
+  } catch (err) {
+    res.status(500).send("Internal server error");
+  }
+};
+
 // GET USER'S CART ITEMS
 
 module.exports.getCartItems = async (req, res) => {
