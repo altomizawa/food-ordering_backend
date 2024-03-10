@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
@@ -26,7 +27,7 @@ module.exports.createUser = async (req, res) => {
 
     // CREATE USER
     const user = await User.create({
-      name: name,
+      name,
       email: email.toLowerCase(), //sanitize
       password: encryptedPassword,
     });
@@ -54,7 +55,7 @@ module.exports.signIn = async (req, res) => {
       res.status(400).send("All inputs are required");
     }
     // Validate if user exists in database
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
 
     if (user && (await bcrypt.compare(password, user.password))) {
       //Create token
@@ -65,11 +66,11 @@ module.exports.signIn = async (req, res) => {
           expiresIn: "5h",
         }
       );
-      // save user token
-      user.token = token;
+      // // save user token
+      // user.token = token;
 
-      // return user
-      return res.status(200).json(user);
+      // return token
+      return res.status(200).json(token);
     }
     return res.status(400).send("Invalid credentials");
   } catch (err) {
