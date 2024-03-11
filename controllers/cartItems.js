@@ -65,33 +65,16 @@ module.exports.addToCart = async (req, res) => {
   }
 };
 
-// MenuItem.create({
-//   category,
-//   name,
-//   description,
-//   link,
-//   price,
-//   onSale,
-//   salePrice,
-// })
-//   .then((menuItem) => res.status(HttpStatus.OK).send(menuItem))
-//   .catch((err) => {
-//     res
-//       .status(HttpStatus.BAD_REQUEST)
-//       .send({ message: HttpResponseMessage.BAD_REQUEST });
-//   });
-
 // DELETE ITEM IN MENU
-module.exports.deleteFromCart = (req, res) => {
-  const { _id } = req.body;
-
-  MenuItem.findOneAndDelete({
-    _id,
-  })
-    .then((deletedCard) => res.status(HttpStatus.OK).send(deletedCard))
-    .catch((err) => {
-      res
-        .status(HttpStatus.NOT_FOUND)
-        .send({ message: HttpResponseMessage.NOT_FOUND });
-    });
+module.exports.deleteFromCart = async (req, res) => {
+  try {
+    // GET ALL IDS FROM BODY
+    const userId = req.user._id;
+    const itemId = req.body._id;
+    // const user = await User.findById(userId);
+    User.removeFromCurrentOrderById(userId, itemId);
+    // await user.save();
+  } catch (err) {
+    console.log(err);
+  }
 };

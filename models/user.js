@@ -74,4 +74,27 @@ userSchema.statics.findUserByCredentials = async function findUserByCredentials(
   }
 };
 
+userSchema.statics.removeFromCurrentOrderById = async function (
+  userId,
+  itemId
+) {
+  try {
+    const user = await this.findByIdAndUpdate(userId, {
+      $pull: { currentOrder: { _id: itemId } }, // Remove item with matching ID
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return user; // Return the updated user document (optional)
+  } catch (err) {
+    console.error(err);
+    throw err; // Re-throw for handling at a higher level
+  }
+};
+
+// // Usage example:
+// const removedItem = await User.removeFromCurrentOrderById(userId, itemId);
+
 module.exports = mongoose.model("User", userSchema);
