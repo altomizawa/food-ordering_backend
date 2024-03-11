@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
-  pastOrders: [{}],
+  pastOrders: [],
   currentOrder: [cartItemSchema],
 });
 
