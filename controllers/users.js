@@ -10,7 +10,7 @@ const { HttpStatus, HttpResponseMessage } = require("../enums/http");
 module.exports.createUser = async (req, res) => {
   try {
     // GET INFO FROM BODY
-    const { name, email, password } = req.body;
+    const { email, password, name } = req.body;
 
     if (!(email && password && name)) {
       return res.status(HttpStatus.BAD_REQUEST).send("All inputs are required");
