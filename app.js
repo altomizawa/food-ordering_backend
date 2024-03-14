@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const connectDatabase = require("./data/database");
 const bodyParser = require("body-parser");
