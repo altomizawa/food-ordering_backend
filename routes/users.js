@@ -1,17 +1,19 @@
 const router = require("express").Router();
 
 const {
-  createUser,
   getAllUsers,
-  getCartItems,
-  addItemToCart,
+  // getCartItems,
+  // addItemToCart,
+  getUserById,
+  deleteUser,
+  getMyProfile,
 } = require("../controllers/users");
 
 router.get("/", getAllUsers);
-// router.get('/:id', getItemById);
-router.post("/", createUser);
-// router.delete("/", deleteMenuItemById);
-router.get("/cart", getCartItems);
-router.post("/cart", addItemToCart);
+router.get("/me", getMyProfile);
+router.get("/:id", getUserById);
+router.delete("/:id", deleteUser);
+// router.get("/cart", getCartItems);
+// router.post("/cart", addItemToCart);
 
 module.exports = router;

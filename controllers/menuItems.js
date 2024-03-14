@@ -1,3 +1,4 @@
+const { HttpStatus, HttpResponseMessage } = require("../enums/http");
 const MenuItem = require("../models/menuItem");
 
 // GET INITIAL Menu
@@ -8,12 +9,16 @@ module.exports.getAllMenuItems = async (req, res) => {
 
     // LOOK FOR ITEMS IN DATABASE AND RETURN ERROR IF FALSE
     if (!menuItems) {
-      return res.status(404).send({ message: "no items in database" });
+      return res
+        .status(HttpStatus.OK)
+        .send({ message: "no items in database" });
     }
     // ITEMS FOUND
-    return res.status(200).send(menuItems);
+    return res.status(HttpStatus.OK).send(menuItems);
   } catch (err) {
-    console.log(err);
+    res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -37,13 +42,15 @@ module.exports.createMenuItem = async (req, res) => {
 
     // CHECK IF ITEM HAS BEEN CREATED
     if (!menuItem) {
-      return res.status(500).send("Couldn't create item in Database");
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .send("Couldn't create item in Database");
     }
 
     // ITEM CREATED. RETURN ITEM
-    return res.status(200).send(menuItem);
+    return res.status(HttpStatus.OK).send(menuItem);
   } catch (err) {
-    res.status(500).send(`Error: ${err}`);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(`Error: ${err}`);
   }
 };
 
@@ -79,12 +86,14 @@ module.exports.getCurrentCategoryMenu = async (req, res) => {
 
     // IF CATEGORY IS NOT FOUND
     if (!categoryItems) {
-      return res.status(400).send("message: category not found in database");
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .send({ message: "category not found in database" });
     }
 
-    return res.status(200).json(categoryItems);
+    return res.status(HttpStatus.OK).json(categoryItems);
   } catch (err) {
-    console.log(err);
+    res.status(500).send(`Error: ${err}`);
   }
 };
 
@@ -97,10 +106,12 @@ module.exports.getItemById = async (req, res) => {
     const menuItem = await MenuItem.findById({ _id: _id });
     if (!menuItem) {
       // ITEM NOT FOUND RETURN ERROR
-      return res.status(404).send("item not found in database");
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .send({ message: "category not found in database" });
     }
     return res.status(200).json(menuItem); // ITEM FOUND RETURN ITEM
   } catch (err) {
-    console.log(err);
+    res.status(500).send(`Error: ${err}`);
   }
 };

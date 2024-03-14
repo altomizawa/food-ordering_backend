@@ -1,23 +1,28 @@
 const bcrypt = require("bcrypt");
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
+
+const { HttpStatus, HttpResponseMessage } = require("../enums/http");
 
 // CREATE USER
 module.exports.createUser = async (req, res) => {
   try {
     // GET INFO FROM BODY
-    const { name, email, password } = req.body;
+    const { email, password, name } = req.body;
 
     if (!(email && password && name)) {
-      return res.status(400).send("All inputs are required");
+      return res.status(HttpStatus.BAD_REQUEST).send("All inputs are required");
     }
 
     // CHECK IF USER DOESNT EXIST IN DATABASE
     const oldUser = await User.findOne({ email });
 
     if (oldUser) {
-      return res.status(409).send("User already exists. Please Login");
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .send("User already exists. Please Login");
     }
 
     // USER IS NEW
@@ -26,20 +31,22 @@ module.exports.createUser = async (req, res) => {
 
     // CREATE USER
     const user = await User.create({
-      name: name,
+      name,
       email: email.toLowerCase(), //sanitize
       password: encryptedPassword,
     });
 
     // Check if user has been created
     if (!user) {
-      return res.status(400).send("User could not be created");
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .send("User could not be created");
     }
 
     //User created. Return user info
-    return res.status(200).json(user);
+    return res.status(HttpStatus.CREATED).json(user);
   } catch (err) {
-    res.status(500).send(`Error: ${err}`);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(`Error: ${err}`);
   }
 };
 
@@ -51,10 +58,10 @@ module.exports.signIn = async (req, res) => {
 
     // Validate user input
     if (!(email && password)) {
-      res.status(400).send("All inputs are required");
+      res.status(HttpStatus.BAD_REQUEST).send("All inputs are required");
     }
     // Validate if user exists in database
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
 
     if (user && (await bcrypt.compare(password, user.password))) {
       //Create token
@@ -65,15 +72,39 @@ module.exports.signIn = async (req, res) => {
           expiresIn: "5h",
         }
       );
-      // save user token
-      user.token = token;
+      // // save user token
+      // user.token = token;
 
-      // return user
-      return res.status(200).json(user);
+      // return token
+      return res.status(HttpStatus.OK).json(token);
     }
-    return res.status(400).send("Invalid credentials");
+    return res.status(HttpStatus.UNAUTHORIZED).send("Invalid credentials");
   } catch (err) {
     console.log(err);
+  }
+};
+
+// GET MY USER PROFILE
+module.exports.getMyProfile = async (req, res) => {
+  try {
+    // Get user input
+    const { user_id } = req.user;
+
+    // LOOK FOR USER BY ID
+    const user = await User.findById(user_id);
+
+    // USER NOT FOUND
+    if (!user) {
+      return res
+        .status(HttpResponseMessage.NOT_FOUND)
+        .send({ message: HttpResponseMessage.NOT_FOUND });
+    }
+
+    res.status(HttpStatus.OK).json(user);
+  } catch (err) {
+    return res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -86,70 +117,46 @@ module.exports.getAllUsers = async (req, res) => {
     if (!users) {
       return res.status(204).send("No users in Database");
     }
-    return res.status(200).json(users);
+    return res.status(HttpStatus.OK).json(users);
   } catch (err) {
-    res.status(500).send("Internal server error");
+    res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
-// GET USER'S CART ITEMS
-
-module.exports.getCartItems = async (req, res) => {
+// GET USER BY ID
+module.exports.getUserById = async (req, res) => {
   try {
-    //FIND USER IN DATABASE
-    const { _id } = req.body;
-    const user = await User.findById(_id);
+    const _id = req.params.id;
+    const user = await User.find({ _id: _id });
 
-    //IF NO USER FOUND
+    // IF NO USER FOUND
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(204).send("No user in Database");
     }
-
-    // USER FOUND. GET ITEMS ARRAY
-    const cartItems = user.currentOrder;
-
-    return res.status(200).json({ cartItems });
+    return res.status(HttpStatus.OK).json(user);
   } catch (err) {
-    return res.status(500).json({ message: "Internal Server Error" });
+    res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
 
-// ADD ITEM TO USER'S CART
-
-module.exports.addItemToCart = async (req, res) => {
+// DELETE USER
+module.exports.deleteUser = async (req, res) => {
   try {
-    //GET INFO FROM REQUEST
-    const { _id, category, name, description, link, price, onSale, salePrice } =
-      req.body;
+    const _id = req.params.id;
+    const user = await User.findByIdAndDelete(_id);
 
-    //FIND USER IN DATABASE
-    const user = await User.findById(_id);
-
-    //IF NO USER FOUND
+    // IF NO USER FOUND
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(204).send("No user in Database");
     }
-
-    // USER FOUND. CREATE NEW OBJECT AND PUSH IT TO ARRAY
-    const newItem = {
-      category,
-      name,
-      description,
-      link,
-      price,
-      onSale,
-      salePrice,
-    };
-
-    user.currentOrder.push(newItem);
-
-    // SAVE UPDATED USER DOCUMENT
-    await user.currentOrder.save();
-
-    return res
-      .status(201)
-      .json({ message: "Item added to cart succesfully", newItem });
+    return res.status(HttpStatus.OK).json(user);
   } catch (err) {
-    return res.status(500).json({ message: "Internal Server Error" });
+    res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
   }
 };
