@@ -52,7 +52,6 @@ module.exports.createUser = async (req, res) => {
 
 // SIGN IN
 module.exports.signIn = async (req, res) => {
-  console.log(req.body);
   try {
     // Get user input
     const { email, password } = req.body;
@@ -171,6 +170,32 @@ module.exports.editUserProfile = async (req, res) => {
     // GET UPDATE FROM BODY
     const { name } = req.body;
     const update = { name };
+
+    // UPDATE USER AND RETURN UPDATED USER
+    const user = await User.findByIdAndUpdate(filter, update, { new: true });
+    // const user = await User.findById(filter)
+    // IF NO USER FOUND
+    if (!user) {
+      return res.status(404).send("No user in Database");
+    }
+
+    return res.status(HttpStatus.OK).json(user);
+  } catch (err) {
+    res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
+  }
+};
+
+// EDIT USER
+module.exports.editAvatar = async (req, res) => {
+  try {
+    // GET USER ID FROM REQ AND DEFINE THE AS FILTER
+    const filter = req.params.id;
+
+    // GET UPDATE FROM BODY
+    const { avatar } = req.body;
+    const update = { avatar };
 
     // UPDATE USER AND RETURN UPDATED USER
     const user = await User.findByIdAndUpdate(filter, update, { new: true });
