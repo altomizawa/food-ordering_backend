@@ -42,8 +42,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
-  pastOrders: [],
-  currentOrder: [cartItemSchema],
+  pastOrders: [[cartItemSchema]],
 });
 
 userSchema.statics.findUserByCredentials = async function findUserByCredentials(

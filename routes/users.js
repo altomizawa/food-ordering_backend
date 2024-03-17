@@ -18,6 +18,6 @@ router.delete("/:id", deleteUser);
 router.patch("/:id", editUserProfile);
 router.patch("/:id/avatar", editAvatar);
 // router.get("/cart", getCartItems);
-// router.post("/cart", addItemToCart);
+// router.post("/:id/pastorders", addItemtoPastOrders);
 
 module.exports = router;
