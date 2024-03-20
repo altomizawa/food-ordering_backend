@@ -38,6 +38,14 @@ app.get("/", (req, res) => {
   res.send("Database connected");
 });
 
+app.use((err, req, res, next) => {
+  // if no err.status, show 500
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 ? "There was a server error" : message,
+  });
+});
+
 app.listen(PORT, () => {
-  console.log(`App listening on this port ${PORT}`);
+  console.log(`App listening on port ${PORT}`);
 });
