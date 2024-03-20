@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 
 app.use(errors()); // CATCH CELEBRATE ERRORS
 
-// CATCH CENTRALIZAED ERRORS
+// CATCH CENTRALIZED ERRORS
 app.use((err, req, res, next) => {
   // if no err.status, show 500
   const { statusCode = 500, message } = err;
