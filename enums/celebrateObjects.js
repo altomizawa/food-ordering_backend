@@ -15,7 +15,21 @@ const signUpObject = {
   }),
 };
 
+const updateNameObject = {
+  body: Joi.object().keys({
+    name: Joi.string().required().min(3).max(30)
+  })
+}
+
+const updateAvatarObject = {
+  body: Joi.object().keys({
+    avatar: Joi.string().uri().required()
+  })
+}
+
 module.exports = {
   signInObject,
   signUpObject,
+  updateAvatarObject,
+  updateNameObject
 };
