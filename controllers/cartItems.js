@@ -1,10 +1,14 @@
-const MenuItem = require("../models/cartItem");
 const User = require("../models/user");
 
 const { HttpStatus, HttpResponseMessage } = require("../enums/http");
 
+// IMPORT ALL ERROR MESSAGES
+const BadRequest = require("../errors/bad-request");
+const NotFoundError = require("../errors/not-found-err");
+const UnauthorizedAccess = require("../errors/unauthorized-access");
+
 // GET CART ITEMS
-module.exports.getAllCartItems = async (req, res) => {
+module.exports.getAllCartItems = async (req, res, next) => {
   try {
     // Get user input
     const { user_id } = req.user;
@@ -14,21 +18,17 @@ module.exports.getAllCartItems = async (req, res) => {
 
     // USER NOT FOUND
     if (!user) {
-      return res
-        .status(HttpResponseMessage.NOT_FOUND)
-        .send({ message: HttpResponseMessage.NOT_FOUND });
+      throw new NotFoundError("User not found");
     }
 
-    res.status(HttpStatus.OK).json(user.currentOrder);
+    res.status(200).json(user.currentOrder);
   } catch (err) {
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
+    next(err);
   }
 };
 
 // POST NEW ITEM IN MENU
-module.exports.addToCart = async (req, res) => {
+module.exports.addToCart = async (req, res, next) => {
   try {
     // GET ALL INPUTS FROM BODY
     const { category, name, description, link, price, onSale, salePrice } =
@@ -41,9 +41,7 @@ module.exports.addToCart = async (req, res) => {
 
     // USER NOT FOUND
     if (!user) {
-      return res
-        .status(HttpResponseMessage.NOT_FOUND)
-        .send({ message: HttpResponseMessage.NOT_FOUND });
+      throw new NotFoundError("User not found");
     }
     user.currentOrder.push({
       category,
@@ -57,24 +55,8 @@ module.exports.addToCart = async (req, res) => {
 
     await user.save();
 
-    res.status(HttpStatus.OK).json(user.currentOrder);
+    res.status(200).json(user.currentOrder);
   } catch (err) {
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
-  }
-};
-
-// DELETE ITEM IN MENU
-module.exports.deleteFromCart = async (req, res) => {
-  try {
-    // GET ALL IDS FROM BODY
-    const userId = req.user._id;
-    const itemId = req.body._id;
-    // const user = await User.findById(userId);
-    User.removeFromCurrentOrderById(userId, itemId);
-    // await user.save();
-  } catch (err) {
-    console.log(err);
+    next(err);
   }
 };

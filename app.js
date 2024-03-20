@@ -5,9 +5,6 @@ const connectDatabase = require("./data/database");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-//import Object Freeze http
-const { HttpStatus, HttpResponseMessage } = require("./enums/http");
-
 const app = express();
 
 const { PORT = 3000 } = process.env;

@@ -4,25 +4,26 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
-const { HttpStatus, HttpResponseMessage } = require("../enums/http");
+// IMPORT ALL ERROR MESSAGES
+const BadRequest = require("../errors/bad-request");
+const NotFoundError = require("../errors/not-found-err");
+const UnauthorizedAccess = require("../errors/unauthorized-access");
 
 // CREATE USER
-module.exports.createUser = async (req, res) => {
+module.exports.createUser = async (req, res, next) => {
   try {
     // GET INFO FROM BODY
     const { email, password, name } = req.body;
 
     if (!(email && password && name)) {
-      return res.status(HttpStatus.BAD_REQUEST).send("All inputs are required");
+      throw new BadRequest("All inputs are required");
     }
 
     // CHECK IF USER DOESNT EXIST IN DATABASE
     const oldUser = await User.findOne({ email });
 
     if (oldUser) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .send("User already exists. Please Login");
+      throw new BadRequest("User already in database. Please login");
     }
 
     // USER IS NEW
@@ -38,27 +39,25 @@ module.exports.createUser = async (req, res) => {
 
     // Check if user has been created
     if (!user) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .send("User could not be created");
+      throw new BadRequest("User could not be created");
     }
 
     //User created. Return user info
-    return res.status(HttpStatus.CREATED).json(user);
+    return res.status(200).json(user);
   } catch (err) {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(`Error: ${err}`);
+    next(err);
   }
 };
 
 // SIGN IN
-module.exports.signIn = async (req, res) => {
+module.exports.signIn = async (req, res, next) => {
   try {
     // Get user input
     const { email, password } = req.body;
 
     // Validate user input
     if (!(email && password)) {
-      res.status(HttpStatus.BAD_REQUEST).send("All inputs are required");
+      throw new BadRequest("All inputs are required");
     }
     // Validate if user exists in database
     const user = await User.findOne({ email }).select("+password");
@@ -72,20 +71,18 @@ module.exports.signIn = async (req, res) => {
           expiresIn: "5h",
         }
       );
-      // // save user token
-      // user.token = token;
 
       // return token
-      return res.status(HttpStatus.OK).json(token);
+      return res.status(200).json(token);
     }
-    return res.status(HttpStatus.UNAUTHORIZED).send("Invalid credentials");
+    throw new UnauthorizedAccess("Invalid credentials");
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
 // GET MY USER PROFILE
-module.exports.getMyProfile = async (req, res) => {
+module.exports.getMyProfile = async (req, res, next) => {
   try {
     // Get user input
     const { user_id } = req.user;
@@ -95,74 +92,64 @@ module.exports.getMyProfile = async (req, res) => {
 
     // USER NOT FOUND
     if (!user) {
-      return res
-        .status(HttpResponseMessage.NOT_FOUND)
-        .send({ message: HttpResponseMessage.NOT_FOUND });
+      throw new NotFoundError("No User found in database");
     }
-
-    res.status(HttpStatus.OK).json(user);
+    // USER FOUND, SEND USER
+    res.status(200).json(user);
   } catch (err) {
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
+    next(err);
   }
 };
 
 // GET ALL USERS
-module.exports.getAllUsers = async (req, res) => {
+module.exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find();
 
     // IF NO USERS FOUND
     if (!users) {
-      return res.status(404).send("No users in Database");
+      throw new BadRequest("No users in Database");
     }
-    return res.status(HttpStatus.OK).json(users);
+    return res.status(200).json(users);
   } catch (err) {
-    res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
+    next(err);
   }
 };
 
 // GET USER BY ID
-module.exports.getUserById = async (req, res) => {
+module.exports.getUserById = async (req, res, next) => {
   try {
     const _id = req.params.id;
     const user = await User.find({ _id: _id });
 
     // IF NO USER FOUND
     if (!user) {
-      return res.status(404).send("No user in Database");
+      throw new NotFoundError("No User found in database");
     }
-    return res.status(HttpStatus.OK).json(user);
+    return res.status(200).json(user);
   } catch (err) {
-    res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
+    next(err);
   }
 };
 
 // DELETE USER
-module.exports.deleteUser = async (req, res) => {
+module.exports.deleteUser = async (req, res, next) => {
   try {
     const _id = req.params.id;
     const user = await User.findByIdAndDelete(_id);
 
     // IF NO USER FOUND
     if (!user) {
-      return res.status(404).send("No user in Database");
+      throw new NotFoundError("No User found in database");
     }
-    return res.status(HttpStatus.OK).json(user);
+    return res.status(200).json(user);
   } catch (err) {
-    res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
+    next(err);
   }
 };
 
 // EDIT USER
-module.exports.editUserProfile = async (req, res) => {
+module.exports.editUserProfile = async (req, res, next) => {
   try {
     // GET USER ID FROM REQ AND DEFINE THE AS FILTER
     const filter = req.params.id;
@@ -176,19 +163,17 @@ module.exports.editUserProfile = async (req, res) => {
     // const user = await User.findById(filter)
     // IF NO USER FOUND
     if (!user) {
-      return res.status(404).send("No user in Database");
+      throw new NotFoundError("No User found in database");
     }
 
-    return res.status(HttpStatus.OK).json(user);
+    return res.status(200).json(user);
   } catch (err) {
-    res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
+    next(err);
   }
 };
 
 // EDIT USER
-module.exports.editAvatar = async (req, res) => {
+module.exports.editAvatar = async (req, res, next) => {
   try {
     // GET USER ID FROM REQ AND DEFINE THE AS FILTER
     const filter = req.params.id;
@@ -202,13 +187,11 @@ module.exports.editAvatar = async (req, res) => {
     // const user = await User.findById(filter)
     // IF NO USER FOUND
     if (!user) {
-      return res.status(404).send("No user in Database");
+      throw new NotFoundError("No User found in database");
     }
 
-    return res.status(HttpStatus.OK).json(user);
+    return res.status(200).json(user);
   } catch (err) {
-    res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
+    next(err);
   }
 };
