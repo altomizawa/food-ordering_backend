@@ -4,8 +4,12 @@ const express = require("express");
 const connectDatabase = require("./data/database");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
+// CELEBRATE VALIDATION IMPORTS
 const { celebrate, errors } = require("celebrate");
 const { signInObject, signUpObject } = require("./enums/celebrateObjects.js"); // OBJECTS FOR CELEBRATE VALIDATION
+// WINSTON LOGGER IMPORT
+const {requestLogger, errorLogger} = require('./middleware/logger.js')
 
 const app = express();
 
@@ -24,8 +28,10 @@ const auth = require("./middleware/auth");
 
 app.use(bodyParser.json());
 
-//setup CORS
+// SETUP CORS
 app.use(cors());
+
+app.use(requestLogger) // ADD REQUEST LOGGER
 
 app.use("/menu", menuRouter);
 app.use("/mycart", auth, cartItems);
@@ -36,6 +42,8 @@ app.post("/signin", celebrate(signInObject), signIn);
 app.get("/", (req, res) => {
   res.send("Database connected");
 });
+
+app.use(errorLogger) // SAVE ERROR LOGS
 
 app.use(errors()); // CATCH CELEBRATE ERRORS
 
