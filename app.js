@@ -3,7 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const connectDatabase = require("./data/database");
 const bodyParser = require("body-parser");
-// const cors = require("cors");
 
 // CELEBRATE VALIDATION IMPORTS
 const { celebrate, errors } = require("celebrate");
@@ -30,11 +29,10 @@ const cors = require("./middleware/cors")
 app.use(bodyParser.json());
 
 // SETUP CORS
-// app.use(cors());
-// app.options('*', cors());
+app.use(cors); //ENABLE CORS MIDDLEWARE
 
 app.use(requestLogger) // ADD REQUEST LOGGER
-app.use(cors)
+
 app.use("/menu", menuRouter);
 app.use("/mycart", auth, cartItems);
 app.use("/users", auth, userRouter);
