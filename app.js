@@ -30,6 +30,7 @@ app.use(bodyParser.json());
 
 // SETUP CORS
 app.use(cors());
+app.options('*', cors());
 
 app.use(requestLogger) // ADD REQUEST LOGGER
 
