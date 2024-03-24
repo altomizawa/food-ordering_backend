@@ -2,10 +2,10 @@ module.exports = async (req, res, next) =>{
     const allowedCors = [
         'http://localhost:3000',
         'http://localhost:5173',
-        'http://italiarestaurant.mooo.com',
-        'https://italiarestaurant.mooo.com',
-        'http://www.italiarestaurant.mooo.com',
-        'https://www.italiarestaurant.mooo.com'
+        'http://italianrestaurant.fairuse.org',
+        'https://italianrestaurant.fairuse.org',
+        'http://www.italianrestaurant.fairuse.org',
+        'https://www.italianrestaurant.fairuse.org'
     ];
     const { method } = req;
     const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
