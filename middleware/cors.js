@@ -1,7 +1,6 @@
 module.exports = async (req, res, next) =>{
     const allowedCors = [
         'http://localhost:3000',
-        'http://localhost:5173',
         'http://italianrestaurant.fairuse.org',
         'https://italianrestaurant.fairuse.org',
         'http://www.italianrestaurant.fairuse.org',

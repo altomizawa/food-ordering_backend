@@ -1,0 +1,251 @@
+[{
+  name: "Bruschetta",  category: "appetizers",  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus velit accusamus inc.",price: 15, salePrice: 10,  onSale: false, link: "https://images.unsplash.com/photo-1594978583693-8dfdfc93f052?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixMHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
+{
+  name: "Caprese Salad", category: "appetizers", description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus velit accusamus inc.", price: 10, salePrice: 7, onSale: false, link: "https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?q=80&w=1969&auto=format&fit=crop&ixlib=rb-4.0.3&ixMHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Carpaccio", category: "appetizers", description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus velit accusamus inc.", price: 12, salePrice: 9, onSale: false, link: "https://images.unsplash.com/photo-1508471349025-ca3e278cf5e2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixMHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Insalata Romana",
+  category: "appetizers",
+  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus velit accusamus inc.",
+  price: 10,
+  salePrice: 8,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixMHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Antipasto Platter",
+  category: "appetizers",
+  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus velit accusamus inc.",
+  price: 18,
+  salePrice: 12,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1541529086526-db283c563270?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixMHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Suppli",
+  category: "appetizers",
+  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus velit accusamus inc.",
+  price: 13,
+  salePrice: 8,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1529042410759-befb1204b468?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixMHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Spaghetti Carbonara",
+  category: "pastas",
+  description: "Classic Italian pasta dish with eggs, cheese, pancetta, and black pepper.",
+  price: 12,
+  salePrice: 10,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1612874742237-6526221588e3?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Fettuccine Alfredo",
+  category: "pastas",
+  description: "Creamy Alfredo sauce tossed with fettuccine pasta and garnished with parsley.",
+  price: 15,
+  salePrice: 12,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1686565510178-52c69af8be37?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Penne Arrabiata",
+  category: "pastas",
+  description: "Spicy tomato sauce combined with penne pasta and topped with fresh basil.",
+  price: 11,
+  salePrice: 9,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1582035619445-9c26d5de240d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Lasagna Bolognese",
+  category: "pastas",
+  description: "Layers of pasta sheets, Bolognese sauce, béchamel, and melted cheese.",
+  price: 18,
+  salePrice: 15,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Ravioli Ricotta e Spinaci",
+  category: "pastas",
+  description: "Homemade ravioli filled with ricotta cheese and spinach served with marinara sauce.",
+  price: 16,
+  salePrice: 13,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1587740908075-9e245070dfaa?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Pasta Primavera",
+  category: "pastas",
+  description: "Colorful pasta dish featuring assorted vegetables and a light garlic sauce.",
+  price: 14,
+  salePrice: 11,
+  onSale: false,
+  link: "https://www.cookingclassy.com/wp-content/uploads/2018/09/pasta-primavera-2.jpg"
+},
+{
+  name: "Gnocchi Sorrentina",
+  category: "pastas",
+  description: "Soft potato dumplings baked with tomato sauce, mozzarella, and basil.",
+  price: 17,
+  salePrice: 14,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1579349443343-73da56a71a20?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Linguine alle Vongole",
+  category: "pastas",
+  description: "Linguine pasta served with fresh clams, garlic, white wine, and parsley.",
+  price: 20,
+  salePrice: 16,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1570549986390-6bd150ac3515?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Margherita Pizza",
+  category: "pizzas",
+  description: "Classic Italian pizza topped with tomato sauce, mozzarella cheese, and fresh basil.",
+  price: 12,
+  salePrice: 10,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1598023696416-0193a0bcd302?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Pepperoni Pizza",
+  category: "pizzas",
+  description: "Traditional pizza with pepperoni slices and melted mozzarella cheese on top.",
+  price: 14,
+  salePrice: 12,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1602658014714-26b99d5a45cf?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Vegetarian Pizza",
+  category: "pizzas",
+  description: "Delicious pizza loaded with assorted vegetables and gooey cheese on a crispy crust.",
+  price: 13,
+  salePrice: 11,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1694717065203-8cb0de9918f3?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Hawaiian Pizza",
+  category: "pizzas",
+  description: "A tropical twist on pizza with ham, pineapple, and mozzarella cheese.",
+  price: 15,
+  salePrice: 13,
+  onSale: false,
+  link: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Tiramisu",
+  category: "desserts",
+  description: "A classic Italian dessert made with layers of coffee-soaked ladyfingers, mascarpone cheese, and cocoa powder.",
+  price: 8,
+  salePrice: 6,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Cannoli",
+  category: "desserts",
+  description: "Crispy pastry shells filled with sweet ricotta cheese, chocolate chips, and a hint of citrus zest.",
+  price: 6,
+  salePrice: 5,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1600835768553-0cc19062f912?q=80&w=1970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Gelato Affogato",
+  category: "desserts",
+  description: "Creamy Italian gelato drowned in a shot of hot espresso, creating a delightful blend of cold and hot flavors.",
+  price: 7,
+  salePrice: 5,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1520224220083-214daa28c5f8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Panna Cotta",
+  category: "desserts",
+  description: "Silky smooth vanilla-flavored cream pudding topped with a tangy berry compote.",
+  price: 9,
+  salePrice: 7,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1629407119893-f9fe24f8aadb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Zeppole",
+  category: "desserts",
+  description: "Light and airy Italian doughnuts dusted with powdered sugar, served warm with a side of chocolate dipping sauce.",
+  price: 5,
+  salePrice: 4,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1641349268827-05362f5e726c?q=80&w=2024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Classic Mojito",
+  category: "beverages",
+  description: "A refreshing blend of white rum, fresh mint leaves, lime juice, sugar, and soda water.",
+  price: 10,
+  salePrice: 8,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1546171753-97d7676e4602?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Margarita",
+  category: "beverages",
+  description: "A classic Mexican cocktail made with tequila, lime juice, and triple sec, served with a salted rim.",
+  price: 9,
+  salePrice: 7,
+  onSale: true,
+  link: "https://plus.unsplash.com/premium_photo-1661369842661-d9fe53c1d0de?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Espresso Martini",
+  category: "beverages",
+  description: "A sophisticated cocktail blending vodka, coffee liqueur, freshly brewed espresso, and a touch of sugar syrup.",
+  price: 12,
+  salePrice: 10,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1607687633950-c745bdb4da70?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Gin and Tonic",
+  category: "beverages",
+  description: "A classic highball cocktail made with gin, tonic water, and a slice of lime, served over ice.",
+  price: 8,
+  salePrice: 6,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1617524455170-ca63c7f0d472?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Whiskey Sour",
+  category: "beverages",
+  description: "A tangy cocktail made with whiskey, lemon juice, sugar, and optionally a dash of egg white for a frothy texture.",
+  price: 11,
+  salePrice: 9,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Pina Colada",
+  category: "beverages",
+  description: "A tropical cocktail made with rum, coconut cream, and pineapple juice, served blended with ice.",
+  price: 10,
+  salePrice: 8,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1617728273800-1e615ab03037?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+},
+{
+  name: "Berry Blast Smoothie",
+  category: "beverages",
+  description: "A refreshing smoothie packed with mixed berries, banana, yogurt, and a splash of orange juice.",
+  price: 8,
+  salePrice: 6,
+  onSale: true,
+  link: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+}]
