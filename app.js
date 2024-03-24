@@ -1,12 +1,15 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const express = require("express");
 const connectDatabase = require("./data/database");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-//import Object Freeze http
-const { HttpStatus, HttpResponseMessage } = require("./enums/http");
+// CELEBRATE VALIDATION IMPORTS
+const { celebrate, errors } = require("celebrate");
+const { signInObject, signUpObject } = require("./enums/celebrateObjects.js"); // OBJECTS FOR CELEBRATE VALIDATION
+// WINSTON LOGGER IMPORT
+const {requestLogger, errorLogger} = require('./middleware/logger.js')
 
 const app = express();
 
@@ -25,17 +28,33 @@ const auth = require("./middleware/auth");
 
 app.use(bodyParser.json());
 
-//setup CORS
+// SETUP CORS
 app.use(cors());
+app.options('*', cors());
+
+app.use(requestLogger) // ADD REQUEST LOGGER
 
 app.use("/menu", menuRouter);
 app.use("/mycart", auth, cartItems);
 app.use("/users", auth, userRouter);
-app.post("/register", createUser);
-app.post("/signin", signIn);
+app.post("/register", celebrate(signUpObject), createUser);
+app.post("/signin", celebrate(signInObject), signIn);
 
 app.get("/", (req, res) => {
   res.send("Database connected");
+});
+
+app.use(errorLogger) // SAVE ERROR LOGS
+
+app.use(errors()); // CATCH CELEBRATE ERRORS
+
+// CATCH CENTRALIZED ERRORS
+app.use((err, req, res, next) => {
+  // if no err.status, show 500
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 ? "There was a server error" : message,
+  });
 });
 
 app.listen(PORT, () => {

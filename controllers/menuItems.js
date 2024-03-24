@@ -1,29 +1,28 @@
-const { HttpStatus, HttpResponseMessage } = require("../enums/http");
 const MenuItem = require("../models/menuItem");
 
+// IMPORT ALL ERROR MESSAGES
+const BadRequest = require("../errors/bad-request");
+const NotFoundError = require("../errors/not-found-err");
+
 // GET INITIAL Menu
-module.exports.getAllMenuItems = async (req, res) => {
+module.exports.getAllMenuItems = async (req, res, next) => {
   try {
     // SEACH FOR ALL ITEMS APPETIZER CATEGORY IN DATABASE
     const menuItems = await MenuItem.find({ category: "appetizers" });
 
     // LOOK FOR ITEMS IN DATABASE AND RETURN ERROR IF FALSE
     if (!menuItems) {
-      return res
-        .status(HttpStatus.OK)
-        .send({ message: "no items in database" });
+      throw new NotFoundError("No items found in database");
     }
     // ITEMS FOUND
-    return res.status(HttpStatus.OK).send(menuItems);
+    return res.status(200).send(menuItems);
   } catch (err) {
-    res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send({ message: HttpResponseMessage.INTERNAL_SERVER_ERROR });
+    next(err);
   }
 };
 
 //CREATE NEW ITEM IN MENU
-module.exports.createMenuItem = async (req, res) => {
+module.exports.createMenuItem = async (req, res, next) => {
   try {
     // GET ALL VALUES FROM BODY
     const { category, name, description, link, price, onSale, salePrice } =
@@ -42,20 +41,18 @@ module.exports.createMenuItem = async (req, res) => {
 
     // CHECK IF ITEM HAS BEEN CREATED
     if (!menuItem) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .send("Couldn't create item in Database");
+      throw new BadRequest("Item could not be created");
     }
 
     // ITEM CREATED. RETURN ITEM
-    return res.status(HttpStatus.OK).send(menuItem);
+    return res.status(200).send(menuItem);
   } catch (err) {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(`Error: ${err}`);
+    next(err);
   }
 };
 
 // DELETE ITEM IN MENU
-module.exports.deleteMenuItemById = async (req, res) => {
+module.exports.deleteMenuItemById = async (req, res, next) => {
   try {
     // GET ALL VALUES FROM BODY
     const { _id } = req.body;
@@ -65,18 +62,18 @@ module.exports.deleteMenuItemById = async (req, res) => {
 
     // CHECK IF ITEM HAS BEEN CREATED
     if (!menuItem) {
-      return res.status(500).send("Couldn't find item in Database");
+      throw new NotFoundError("Item could not be found");
     }
 
     // ITEM DELETED. RETURN DELETED ITEM
     return res.status(200).send(menuItem);
   } catch (err) {
-    res.status(500).send(`Error: ${err}`);
+    next(err);
   }
 };
 
 // GET ALL ITEMS FROM ONE CATEGORY
-module.exports.getCurrentCategoryMenu = async (req, res) => {
+module.exports.getCurrentCategoryMenu = async (req, res, next) => {
   try {
     // GET CATEGORY
     const category = req.params.id;
@@ -86,19 +83,17 @@ module.exports.getCurrentCategoryMenu = async (req, res) => {
 
     // IF CATEGORY IS NOT FOUND
     if (!categoryItems) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .send({ message: "category not found in database" });
+      throw new NotFoundError("category not found in database");
     }
 
-    return res.status(HttpStatus.OK).json(categoryItems);
+    return res.status(200).json(categoryItems);
   } catch (err) {
-    res.status(500).send(`Error: ${err}`);
+    next(err);
   }
 };
 
 // GET ITEM BY ID
-module.exports.getItemById = async (req, res) => {
+module.exports.getItemById = async (req, res, next) => {
   try {
     // GET ITEM ID
     const _id = req.params.id;
@@ -106,12 +101,10 @@ module.exports.getItemById = async (req, res) => {
     const menuItem = await MenuItem.findById({ _id: _id });
     if (!menuItem) {
       // ITEM NOT FOUND RETURN ERROR
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .send({ message: "category not found in database" });
+      throw new NotFoundError("category not found in database");
     }
     return res.status(200).json(menuItem); // ITEM FOUND RETURN ITEM
   } catch (err) {
-    res.status(500).send(`Error: ${err}`);
+    next(err);
   }
 };
