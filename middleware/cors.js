@@ -5,7 +5,8 @@ module.exports = async (req, res, next) =>{
         'http://italianrestaurant.fairuse.org',
         'https://italianrestaurant.fairuse.org',
         'http://www.italianrestaurant.fairuse.org',
-        'https://www.italianrestaurant.fairuse.org'
+        'https://www.italianrestaurant.fairuse.org',
+        'https://italiarestaurant.netlify.app'
     ];
     const { method } = req;
     const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
