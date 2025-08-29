@@ -1,11 +1,7 @@
-const User = require("../models/user");
-
-const { HttpStatus, HttpResponseMessage } = require("../enums/http");
-
+/* eslint-disable linebreak-style */
+const User = require('../models/user');
 // IMPORT ALL ERROR MESSAGES
-const BadRequest = require("../errors/bad-request");
-const NotFoundError = require("../errors/not-found-err");
-const UnauthorizedAccess = require("../errors/unauthorized-access");
+const NotFoundError = require('../errors/not-found-err');
 
 // GET CART ITEMS
 module.exports.getAllCartItems = async (req, res, next) => {
@@ -18,7 +14,7 @@ module.exports.getAllCartItems = async (req, res, next) => {
 
     // USER NOT FOUND
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError('User not found');
     }
 
     res.status(200).json(user.currentOrder);
@@ -31,8 +27,9 @@ module.exports.getAllCartItems = async (req, res, next) => {
 module.exports.addToCart = async (req, res, next) => {
   try {
     // GET ALL INPUTS FROM BODY
-    const { category, name, description, link, price, onSale, salePrice } =
-      req.body;
+    const {
+      category, name, description, link, price, onSale, salePrice,
+    } = req.body;
     // Get user input
     const { user_id } = req.user;
 
@@ -41,7 +38,7 @@ module.exports.addToCart = async (req, res, next) => {
 
     // USER NOT FOUND
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError('User not found');
     }
     user.currentOrder.push({
       category,

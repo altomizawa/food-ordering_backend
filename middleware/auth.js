@@ -6,7 +6,6 @@ const { HttpStatus, HttpResponseMessage } = require("../enums/http");
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
   const secretKey = process.env.TOKEN_KEY;
-
   // CHECK FOR EXISTING AUTHORIZATION
   if (!authorization || !authorization.startsWith("Bearer ")) {
     return res.status(HttpStatus.FORBIDDEN).send(HttpResponseMessage.FORBIDDEN);
@@ -17,7 +16,6 @@ module.exports = (req, res, next) => {
 
   // CREATE PAYLOAD
   let payload;
-
   // CHECK IF PAYLOAD MATCHES EXISTING PAYLOAD
   try {
     payload = jwt.verify(token, secretKey);

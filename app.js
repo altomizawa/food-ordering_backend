@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 require("dotenv").config();
 
 const express = require("express");
@@ -8,7 +9,7 @@ const bodyParser = require("body-parser");
 const { celebrate, errors } = require("celebrate");
 const { signInObject, signUpObject } = require("./enums/celebrateObjects.js"); // OBJECTS FOR CELEBRATE VALIDATION
 // WINSTON LOGGER IMPORT
-const {requestLogger, errorLogger} = require('./middleware/logger.js')
+const { requestLogger, errorLogger } = require('./middleware/logger.js')
 
 const app = express();
 
@@ -22,16 +23,16 @@ const cartItems = require("./routes/cartItems");
 const userRouter = require("./routes/users");
 const { createUser, signIn } = require("./controllers/users");
 
-//IMPORT MIDDLEWARES
+// IMPORT MIDDLEWARES
 const auth = require("./middleware/auth");
-const cors = require("./middleware/cors")
+const cors = require("./middleware/cors");
 
 app.use(bodyParser.json());
 
 // SETUP CORS
-app.use(cors); //ENABLE CORS MIDDLEWARE
+app.use(cors); // ENABLE CORS MIDDLEWARE
 
-app.use(requestLogger) // ADD REQUEST LOGGER
+app.use(requestLogger); // ADD REQUEST LOGGER
 
 app.use("/menu", menuRouter);
 app.use("/mycart", auth, cartItems);
@@ -43,7 +44,7 @@ app.get("/", (req, res) => {
   res.send("Database connected");
 });
 
-app.use(errorLogger) // SAVE ERROR LOGS
+app.use(errorLogger); // SAVE ERROR LOGS
 
 app.use(errors()); // CATCH CELEBRATE ERRORS
 

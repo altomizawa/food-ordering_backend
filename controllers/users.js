@@ -1,3 +1,5 @@
+/* eslint-disable quotes */
+/* eslint-disable linebreak-style */
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
@@ -33,7 +35,7 @@ module.exports.createUser = async (req, res, next) => {
     // CREATE USER
     const user = await User.create({
       name,
-      email: email.toLowerCase(), //sanitize
+      email: email.toLowerCase(), // sanitize
       password: encryptedPassword,
     });
 
@@ -42,7 +44,7 @@ module.exports.createUser = async (req, res, next) => {
       throw new BadRequest("User could not be created");
     }
 
-    //User created. Return user info
+    // User created. Return user info
     return res.status(200).json(user);
   } catch (err) {
     next(err);
@@ -61,15 +63,15 @@ module.exports.signIn = async (req, res, next) => {
     }
     // Validate if user exists in database
     const user = await User.findOne({ email }).select("+password");
-
-    if (user && (await bcrypt.compare(password, user.password))) {
-      //Create token
+    const passworMatch = await bcrypt.compare(password, user.password);
+    if (user && passworMatch) {
+      // Create token
       const token = jwt.sign(
         { user_id: user._id, email },
         process.env.TOKEN_KEY,
         {
           expiresIn: "5h",
-        }
+        },
       );
 
       // return token
@@ -160,7 +162,7 @@ module.exports.editUserProfile = async (req, res, next) => {
 
     // UPDATE USER AND RETURN UPDATED USER
     const user = await User.findByIdAndUpdate(filter, update, { new: true });
-    // const user = await User.findById(filter)
+
     // IF NO USER FOUND
     if (!user) {
       throw new NotFoundError("No User found in database");
@@ -184,7 +186,7 @@ module.exports.editAvatar = async (req, res, next) => {
 
     // UPDATE USER AND RETURN UPDATED USER
     const user = await User.findByIdAndUpdate(filter, update, { new: true });
-    // const user = await User.findById(filter)
+
     // IF NO USER FOUND
     if (!user) {
       throw new NotFoundError("No User found in database");
@@ -195,3 +197,4 @@ module.exports.editAvatar = async (req, res, next) => {
     next(err);
   }
 };
+
